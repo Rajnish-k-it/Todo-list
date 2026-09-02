@@ -17,6 +17,11 @@
           <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>daymark</span>
         </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a class="nav-link active" href="#tasks" data-nav-filter="all">Today</a>
+          <a class="nav-link" href="#tasks" data-nav-filter="active">Open tasks</a>
+          <a class="nav-link" href="#tasks" data-nav-filter="completed">Completed</a>
+        </nav>
         <div class="topbar-meta"><span class="live-dot"></span><span id="todayLabel">Tuesday, Sep 2</span></div>
       </header>
 
@@ -31,7 +36,7 @@
         </div>
       </section>
 
-      <section class="workspace" aria-label="Todo workspace">
+      <section class="workspace" id="tasks" aria-label="Todo workspace">
         <div class="toolbar">
           <div class="filters" role="tablist" aria-label="Filter tasks">
             <button class="filter active" data-filter="all" role="tab" aria-selected="true">All <span id="allCount">0</span></button>

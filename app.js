@@ -118,6 +118,16 @@ document.querySelectorAll(".filter").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".nav-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const filterButton = document.querySelector(`.filter[data-filter="${link.dataset.navFilter}"]`);
+    if (filterButton) filterButton.click();
+    document.querySelectorAll(".nav-link").forEach((navLink) => {
+      navLink.classList.toggle("active", navLink === link);
+    });
+  });
+});
+
 document.querySelector("#clearCompleted").addEventListener("click", () => {
   tasks = tasks.filter((task) => !task.completed);
   saveTasks();
