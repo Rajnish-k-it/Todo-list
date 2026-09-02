@@ -166,6 +166,16 @@ document.querySelectorAll(".nav-link").forEach((link) => {
   });
 });
 
+document.querySelectorAll("[data-emoji]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const emoji = button.dataset.emoji;
+    const currentValue = elements.input.value.trimEnd();
+    elements.input.value = currentValue ? `${currentValue} ${emoji} ` : `${emoji} `;
+    elements.input.focus();
+    elements.input.setSelectionRange(elements.input.value.length, elements.input.value.length);
+  });
+});
+
 document.querySelector("#clearCompleted").addEventListener("click", () => {
   tasks = tasks.filter((task) => !task.completed);
   saveTasks();

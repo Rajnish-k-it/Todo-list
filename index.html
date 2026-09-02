@@ -52,6 +52,14 @@
           <input id="taskInput" type="text" maxlength="120" placeholder="What needs your attention?" autocomplete="off" />
           <button class="add-button" type="submit">Add task <span aria-hidden="true">↗</span></button>
         </form>
+        <div class="emoji-tools" aria-label="Quick emoji choices">
+          <span>Quick add</span>
+          <button type="button" data-emoji="📌" aria-label="Insert pin emoji">📌</button>
+          <button type="button" data-emoji="💡" aria-label="Insert idea emoji">💡</button>
+          <button type="button" data-emoji="💼" aria-label="Insert work emoji">💼</button>
+          <button type="button" data-emoji="🏠" aria-label="Insert home emoji">🏠</button>
+          <button type="button" data-emoji="🌱" aria-label="Insert growth emoji">🌱</button>
+        </div>
 
         <div class="task-list" id="taskList" aria-live="polite" aria-label="Tasks"></div>
         <div class="empty-state" id="emptyState" hidden>

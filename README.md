@@ -8,6 +8,7 @@ The project has no build step, framework, package manager, or server-side depend
 
 - Add tasks from the input field.
 - Edit task titles inline with the pencil action.
+- Add quick context with emoji buttons for pin, idea, work, home, and growth.
 - Submit with the Add task button or the Enter key.
 - Mark tasks open or complete with a circular checkbox.
 - Filter the list by All, Open, or Done.
@@ -19,6 +20,8 @@ The project has no build step, framework, package manager, or server-side depend
 - Render user-entered task text safely as text instead of executable HTML.
 - Include an empty state when the selected filter has no tasks.
 - Use responsive layout rules for smaller screens.
+- Keep the main page fixed while long task lists scroll inside their own area.
+- Use entrance, hover, completion, and focus animations with reduced-motion support.
 - Provide labels and status text for keyboard and assistive-technology users.
 
 ## Project Structure
@@ -76,6 +79,8 @@ Double-click `index.html` or open it from your browser. The app should render wi
 4. The new task is placed at the top and saved immediately.
 
 Blank submissions are ignored after trimming whitespace.
+
+Use the emoji shortcuts below the input to append an emoji to the current draft. The input remains focused after each selection, so you can keep typing immediately.
 
 ### Complete a task
 
@@ -144,8 +149,9 @@ If browser storage is blocked or full, the app still works for the current page 
 Defines the semantic page layout:
 
 - Header with the Daymark brand and current date.
+- Main navigation connected to the All, Open, and Done task views.
 - Intro section with the main heading and progress summary.
-- Todo workspace with filter tabs, task form, task list, and empty state.
+- Todo workspace with filter tabs, task form, emoji shortcuts, task list, and empty state.
 - Footer with the local-storage notice and task count.
 
 The task list is populated by JavaScript at runtime. The static HTML does not duplicate task markup.
@@ -157,9 +163,9 @@ Contains the complete visual system:
 - CSS custom properties for the paper background, ink, muted text, borders, and coral accent.
 - Manrope for interface text and DM Mono for compact metadata.
 - A subtle paper texture created with a CSS data image.
-- A four-column task grid so the checkbox, text, timestamp, and delete action remain aligned.
+- A five-column task grid so the checkbox, text, timestamp, edit action, and delete action remain aligned.
 - A mobile breakpoint at 640px.
-- A short `rise` animation for newly rendered task rows.
+- A short `rise` animation for newly rendered task rows plus coordinated page-load and interaction animations.
 
 Change the colors in the `:root` block to create a different theme without changing the markup or JavaScript.
 
@@ -170,9 +176,9 @@ Owns all application behavior:
 1. Creates seed data when needed.
 2. Loads saved tasks from `localStorage`.
 3. Tracks the current filter in memory.
-4. Renders the visible task list and summary counts.
-5. Handles form submission, task toggling, deletion, filtering, and clearing.
-6. Saves changes after every mutation.
+5. Renders the visible task list and summary counts.
+6. Handles form submission, task editing, task toggling, deletion, filtering, emoji insertion, and clearing.
+7. Saves changes after every mutation.
 
 User text is escaped through a temporary DOM element before being inserted into the task template. Task IDs use `crypto.randomUUID()` when available and a timestamp-based fallback otherwise.
 
@@ -182,6 +188,7 @@ Run through this checklist after changing the app:
 
 - Open the page and confirm the seed tasks render.
 - Add a normal task and confirm it appears at the top.
+- Select each emoji shortcut and confirm it is appended to the draft.
 - Try submitting only spaces and confirm no blank task is created.
 - Complete an open task and confirm the progress ring and counts change.
 - Return the task to Open and confirm the state reverses.
@@ -191,6 +198,7 @@ Run through this checklist after changing the app:
 - Reload the page and confirm changes persist.
 - Remove the storage key and reload to confirm the seed list returns.
 - Resize the browser below 640px and confirm controls do not overlap.
+- Confirm a long list scrolls inside the task area instead of scrolling the whole page.
 - Add text containing `<` and `>` and confirm it displays as text.
 - Navigate through the controls with Tab and confirm focus remains visible.
 
