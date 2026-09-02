@@ -7,6 +7,7 @@ The project has no build step, framework, package manager, or server-side depend
 ## Features
 
 - Add tasks from the input field.
+- Edit task titles inline with the pencil action.
 - Submit with the Add task button or the Enter key.
 - Mark tasks open or complete with a circular checkbox.
 - Filter the list by All, Open, or Done.
@@ -81,6 +82,10 @@ Blank submissions are ignored after trimming whitespace.
 Select the circular checkbox beside an open task. The task receives completed styling, the Done count increases, and the progress percentage is recalculated.
 
 Select the checkbox again to return the task to Open.
+
+### Edit a task
+
+Select the pencil action on a task row. Its title becomes an inline text field. Press Enter to save the new title or Escape to cancel. Empty titles are rejected, and saved changes are written to `localStorage` immediately.
 
 ### Filter tasks
 

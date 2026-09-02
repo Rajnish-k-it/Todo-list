@@ -58,6 +58,7 @@ function render() {
       <button class="task-check" type="button" data-action="toggle" data-id="${task.id}" aria-label="Mark ${escapeHtml(task.title)} ${task.completed ? "open" : "complete"}"></button>
       <span class="task-text">${escapeHtml(task.title)}</span>
       <span class="task-date">${task.createdAt}</span>
+      <button class="edit-task" type="button" data-action="edit" data-id="${task.id}" aria-label="Edit ${escapeHtml(task.title)}">✎</button>
       <button class="delete-task" type="button" data-action="delete" data-id="${task.id}" aria-label="Delete ${escapeHtml(task.title)}">×</button>
     </article>
   `).join("");
@@ -86,6 +87,34 @@ function addTask(title) {
   render();
 }
 
+function beginEdit(task, article, button) {
+  const textElement = article.querySelector(".task-text");
+  const input = document.createElement("input");
+  input.className = "task-edit-input";
+  input.type = "text";
+  input.maxLength = 120;
+  input.value = task.title;
+  textElement.replaceWith(input);
+  button.dataset.action = "save";
+  button.textContent = "✓";
+  button.setAttribute("aria-label", `Save ${task.title}`);
+  input.focus();
+  input.select();
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") button.click();
+    if (event.key === "Escape") render();
+  });
+}
+
+function saveEdit(task, article) {
+  const input = article.querySelector(".task-edit-input");
+  const updatedTitle = input?.value.trim();
+  if (!updatedTitle) return;
+  task.title = updatedTitle;
+  saveTasks();
+  render();
+}
+
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
   const title = elements.input.value.trim();
@@ -101,30 +130,39 @@ elements.list.addEventListener("click", (event) => {
   const task = tasks.find((item) => item.id === button.dataset.id);
   if (!task) return;
   if (button.dataset.action === "toggle") task.completed = !task.completed;
+  if (button.dataset.action === "edit") {
+    beginEdit(task, button.closest(".task"), button);
+    return;
+  }
+  if (button.dataset.action === "save") {
+    saveEdit(task, button.closest(".task"));
+    return;
+  }
   if (button.dataset.action === "delete") tasks = tasks.filter((item) => item.id !== task.id);
   saveTasks();
   render();
 });
 
-document.querySelectorAll(".filter").forEach((button) => {
-  button.addEventListener("click", () => {
-    currentFilter = button.dataset.filter;
-    document.querySelectorAll(".filter").forEach((filter) => {
-      const selected = filter === button;
-      filter.classList.toggle("active", selected);
-      filter.setAttribute("aria-selected", selected);
-    });
-    render();
+function setFilter(filterName) {
+  currentFilter = filterName;
+  document.querySelectorAll(".filter").forEach((filter) => {
+    const selected = filter.dataset.filter === filterName;
+    filter.classList.toggle("active", selected);
+    filter.setAttribute("aria-selected", selected);
   });
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.classList.toggle("active", link.dataset.navFilter === filterName);
+  });
+  render();
+}
+
+document.querySelectorAll(".filter").forEach((button) => {
+  button.addEventListener("click", () => setFilter(button.dataset.filter));
 });
 
 document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", () => {
-    const filterButton = document.querySelector(`.filter[data-filter="${link.dataset.navFilter}"]`);
-    if (filterButton) filterButton.click();
-    document.querySelectorAll(".nav-link").forEach((navLink) => {
-      navLink.classList.toggle("active", navLink === link);
-    });
+    setFilter(link.dataset.navFilter);
   });
 });
 
