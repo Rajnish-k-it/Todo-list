@@ -1,10 +1,16 @@
 const STORAGE_KEY = "daymark-tasks";
 
+function createId() {
+  return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 const seedTasks = [
-  { id: crypto.randomUUID(), title: "Sketch the outline for the new project", completed: false, createdAt: "09:15" },
-  { id: crypto.randomUUID(), title: "Book a table for Friday evening", completed: false, createdAt: "08:42" },
-  { id: crypto.randomUUID(), title: "Read 20 pages of current book", completed: true, createdAt: "Yesterday" },
-  { id: crypto.randomUUID(), title: "Water the plants", completed: true, createdAt: "Yesterday" },
+  { id: createId(), title: "Sketch the outline for the new project", completed: false, createdAt: "09:15" },
+  { id: createId(), title: "Book a table for Friday evening", completed: false, createdAt: "08:42" },
+  { id: createId(), title: "Read 20 pages of current book", completed: true, createdAt: "Yesterday" },
+  { id: createId(), title: "Water the plants", completed: true, createdAt: "Yesterday" },
 ];
 
 let tasks = loadTasks();
@@ -35,7 +41,11 @@ function loadTasks() {
 }
 
 function saveTasks() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch {
+    // The app remains usable when storage is blocked or full.
+  }
 }
 
 function render() {
@@ -71,7 +81,7 @@ function escapeHtml(value) {
 }
 
 function addTask(title) {
-  tasks.unshift({ id: crypto.randomUUID(), title, completed: false, createdAt: "Just now" });
+  tasks.unshift({ id: createId(), title, completed: false, createdAt: "Just now" });
   saveTasks();
   render();
 }
