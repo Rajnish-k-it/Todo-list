@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f0e8" />
+    <title>Daymark — Todo list</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Daymark home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>daymark</span>
+        </a>
+        <div class="topbar-meta"><span class="live-dot"></span><span id="todayLabel">Tuesday, Sep 2</span></div>
+      </header>
+
+      <section class="intro" aria-labelledby="pageTitle">
+        <div>
+          <p class="eyebrow">Your daily focus</p>
+          <h1 id="pageTitle">Make room<br /><em>for what matters.</em></h1>
+        </div>
+        <div class="progress-summary">
+          <span class="progress-ring" id="progressRing" aria-label="0% complete"><span id="progressPercent">0%</span></span>
+          <div><strong id="progressTitle">Fresh start</strong><span id="progressCaption">A little progress goes a long way.</span></div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Todo workspace">
+        <div class="toolbar">
+          <div class="filters" role="tablist" aria-label="Filter tasks">
+            <button class="filter active" data-filter="all" role="tab" aria-selected="true">All <span id="allCount">0</span></button>
+            <button class="filter" data-filter="active" role="tab" aria-selected="false">Open <span id="activeCount">0</span></button>
+            <button class="filter" data-filter="completed" role="tab" aria-selected="false">Done <span id="doneCount">0</span></button>
+          </div>
+          <button class="clear-button" id="clearCompleted" type="button">Clear completed</button>
+        </div>
+
+        <form class="add-task" id="taskForm">
+          <span class="plus" aria-hidden="true">+</span>
+          <label class="sr-only" for="taskInput">Add a task</label>
+          <input id="taskInput" type="text" maxlength="120" placeholder="What needs your attention?" autocomplete="off" />
+          <button class="add-button" type="submit">Add task <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="task-list" id="taskList" aria-live="polite"></div>
+        <div class="empty-state" id="emptyState" hidden>
+          <span class="empty-icon" aria-hidden="true">✦</span>
+          <strong>Nothing here yet</strong>
+          <span>Add a task above and give your day a shape.</span>
+        </div>
+      </section>
+
+      <footer class="footer"><span><span class="footer-symbol">⌘</span> Your tasks stay on this device</span><span id="taskCountLabel">0 tasks</span></footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
